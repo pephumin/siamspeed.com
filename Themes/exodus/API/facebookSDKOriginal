@@ -1,0 +1,24 @@
+
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '326787037445447',
+      status	 : true,
+      cookie	 : true,
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+    FB.Event.subscribe('edge.create', function(url) {
+      ga('send', 'social', 'facebook', 'like', url);
+    });
+  };
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk/debug.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+

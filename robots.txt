@@ -1,0 +1,9 @@
+User-agent: *
+
+Allow: /index.php?*
+Disallow: /index.php?*;wap
+Disallow: /index.php?*;wap2
+Disallow: /index.php?*;imode
+
+Sitemap: http://www.siamspeed.com/sitemap.xml
+Sitemap: http://www.siamspeed.com/msitemap.xml

@@ -1,0 +1,45 @@
+    <style>
+     #ad_root {
+        display: none;
+        font-size: 14px;
+        height: 250px;
+        line-height: 16px;
+        position: relative;
+        width: 300px;
+      }
+      .thirdPartyMediaClass {
+        height: 157px;
+        width: 300px;
+      }
+      .thirdPartyTitleClass {
+        font-weight: 600;
+        font-size: 16px;
+        margin: 8px 0 4px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .thirdPartyBodyClass {
+        display: -webkit-box;
+        height: 32px;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }
+      .thirdPartyCallToActionClass {
+        color: #326891;
+        font-family: sans-serif;
+        font-weight: 600;
+        margin-top: 8px;
+      }
+    </style>
+
+<fb:ad placementid="326787037445447_328936907230460" format="native" nativeadid="ad_root" testmode="true"></fb:ad>
+  <div id="ad_root">
+    <a class="fbAdLink">
+      <div class="fbAdMedia thirdPartyMediaClass"></div>
+      <div class="fbAdTitle thirdPartyTitleClass"></div>
+      <div class="fbAdBody thirdPartyBodyClass"></div>
+      <div class="fbAdCallToAction thirdPartyCallToActionClass"></div>
+    </a>
+  </div>
+  
