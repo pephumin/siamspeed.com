@@ -4,3 +4,5 @@ avs
 cache
 msitemap*.xml
 sitemap*.xml
+Settings.php
+Settings_bak.php
