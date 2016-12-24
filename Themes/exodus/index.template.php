@@ -156,6 +156,12 @@ function template_html_above()
     -ms-filter: grayscale(85%);
   }
   */
+  .stick-top-left {
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 999;
+  }
   @media (min-width: 768px)
   {
     .container {
@@ -164,7 +170,8 @@ function template_html_above()
   }
   </style>
 </head>
-<body>';
+<body>
+  <img src="/Themes/exodus/images/black-ribbon.png" class="stick-top-left" alt="ทีมงาน siamspeed.com ขอน้อมรำลึกในพระมหากรุณาธิคุณของพ่อหลวง และขอกราบน้อมเกล้าฯส่งเสด็จสู่สวรรคาลัย">';
 include_once("API/facebookSDK");
 include_once("API/googleAdSense1");
 }
