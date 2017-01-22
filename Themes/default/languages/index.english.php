@@ -3,10 +3,6 @@
 
 global $forum_copyright, $forum_version, $webmaster_email, $scripturl, $context, $boardurl;
 
-$txt['youtube'] = "Youtube";
-$txt['youtube_link_invalid'] = '[ Invalid YouTube link ]';
-$txt['youtube_no_embed'] = 'Show YouTube videos as a link.';
-
 // Locale (strftime, pspell_new) and spelling. (pspell_new, can be left as '' normally.)
 // For more information see:
 //   - http://www.php.net/function.pspell-new
@@ -17,7 +13,7 @@ $txt['lang_dictionary'] = 'en';
 $txt['lang_spelling'] = 'american';
 
 // Ensure you remember to use uppercase for character set strings.
-$txt['lang_character_set'] = 'utf-8';
+$txt['lang_character_set'] = 'ISO-8859-1';
 // Character set and right to left?
 $txt['lang_rtl'] = false;
 // Capitalize day and month names?

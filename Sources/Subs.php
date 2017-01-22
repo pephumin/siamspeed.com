@@ -8,7 +8,7 @@
  * @copyright 2011 Simple Machines
  * @license http://www.simplemachines.org/about/smf/license.php BSD
  *
- * @version 2.0.12
+ * @version 2.0.13
  */
 
 if (!defined('SMF'))
@@ -1666,14 +1666,6 @@ function parse_bbc($message, $smileys = true, $cache_id = '', $parse_tags = arra
 		$cache_t = microtime();
 	}
 
-	// Added to allow the user the option to not embed a YouTube video
-	global $options;
-	if (!empty($options['youtube_no_embed']))
-	{
-		$disabled['youtube'] = true;
-		$disabled['yt'] = true;
-	}
-
 	if ($smileys === 'print')
 	{
 		// [glow], [shadow], and [move] can't really be printed.
@@ -1709,9 +1701,6 @@ function parse_bbc($message, $smileys = true, $cache_id = '', $parse_tags = arra
 
 	$open_tags = array();
 	$message = strtr($message, array("\n" => '<br />'));
-
-	// Embed NHL URLs in the NHL bbcode tags:
-	BBCode_YouTube_Embed($message, $smileys, $cache_id, $parse_tags);
 
 	// The non-breaking-space looks a bit different each time.
 	$non_breaking_space = $context['utf8'] ? ($context['server']['complex_preg_chars'] ? '\x{A0}' : "\xC2\xA0") : '\xA0';
@@ -2069,10 +2058,7 @@ function parse_bbc($message, $smileys = true, $cache_id = '', $parse_tags = arra
 
 				// Okay, this may look ugly and it is, but it's not going to happen much and it is the best way of allowing any order of parameters but still parsing them right.
 				$match = false;
-				if (in_array($possible['tag'], array('youtube', 'yt', 'yt_user', 'yt_search')))
-					$orders = array(BBCode_YouTube_Params($message, $pos1, $possible['parameters']) ? $preg : array());
-				else
-					$orders = permute($preg);
+				$orders = permute($preg);
 				foreach ($orders as $p)
 					if (preg_match('~^' . implode('', $p) . '\]~i', substr($message, $pos1 - 1), $matches) != 0)
 					{
@@ -4510,10 +4496,6 @@ function safe_serialize($value)
  */
 function _safe_unserialize($str)
 {
-	// Input exceeds 4096.
-	if(strlen($str) > 4096)
-		return false;
-
 	// Input  is not a string.
 	if(empty($str) || !is_string($str))
 		return false;
@@ -4560,7 +4542,7 @@ function _safe_unserialize($str)
 			$value = substr($matches[2], 0, (int)$matches[1]);
 			$str = substr($matches[2], (int)$matches[1] + 2);
 		}
-		else if($type == 'a' && preg_match('/^a:([0-9]+):{(.*)/s', $str, $matches) && $matches[1] < 256)
+		else if($type == 'a' && preg_match('/^a:([0-9]+):{(.*)/s', $str, $matches))
 		{
 			$expectedLength = (int)$matches[1];
 			$str = $matches[2];
@@ -4575,10 +4557,6 @@ function _safe_unserialize($str)
 			case 3: // In array, expecting value or another array.
 				if($type == 'a')
 				{
-					// Array nesting exceeds 3.
-					if(count($stack) >= 3)
-						return false;
-
 					$stack[] = &$list;
 					$list[$key] = array();
 					$list = &$list[$key];
@@ -4618,10 +4596,6 @@ function _safe_unserialize($str)
 
 				if($type == 'i' || $type == 's')
 				{
-					// Array size exceeds 256.
-					if(count($list) >= 256)
-						return false;
-
 					// Array size exceeds expected length.
 					if(count($list) >= end($expected))
 						return false;
@@ -4638,10 +4612,6 @@ function _safe_unserialize($str)
 			case 0:
 				if($type == 'a')
 				{
-					// Array nesting exceeds 3.
-					if(count($stack) >= 3)
-						return false;
-
 					$data = array();
 					$list = &$data;
 					$expected[] = $expectedLength;

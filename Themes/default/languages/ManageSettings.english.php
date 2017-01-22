@@ -356,7 +356,4 @@ $txt['languages_download_complete'] = 'Installation Complete';
 $txt['languages_download_complete_desc'] = 'Language pack installed successfully. Please click <a href="%1$s">here</a> to return to the languages page';
 $txt['languages_delete_confirm'] = 'Are you sure you want to delete this language?';
 
-$txt['youtube_default_width'] = 'Default width used for YouTube bbcode when not specified<div class="smalltext">Use <strong>0</strong> to use responsive video display</div>';
-$txt['youtube_default_height'] = 'Default height used for YouTube bbcode when not specified<div class="smalltext">Use <strong>0</strong> to use responsive video display</div>';
-
 ?>

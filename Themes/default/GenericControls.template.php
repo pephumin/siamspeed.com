@@ -302,15 +302,7 @@ function template_control_verification($verify_id, $display_type = 'all', $reset
 			<div id="verification_control_', $i, '" class="verification_control">';
 
 		// Do the actual stuff - image first?
-		if ($i == 0 && ($verify_context['show_visual'] || $modSettings['recaptcha_enabled']))
-		{
-			if ($modSettings['recaptcha_enabled'])
-			{
-				echo '
-				<div class="g-recaptcha" data-sitekey="' . $modSettings['recaptcha_public_key'] . '" data-theme="' . $modSettings['recaptcha_theme'] . '"></div>
-				<script type="text/javascript" src="https://www.google.com/recaptcha/api.js"></script>';
-			}
-			else
+		if ($i == 0 && $verify_context['show_visual'])
 		{
 			if ($context['use_graphic_library'])
 				echo '
@@ -334,8 +326,6 @@ function template_control_verification($verify_id, $display_type = 'all', $reset
 					', $txt['visual_verification_description'], ':', $display_type != 'quick_reply' ? '<br />' : '', '
 					<input type="text" name="', $verify_id, '_vv[code]" value="', !empty($verify_context['text_value']) ? $verify_context['text_value'] : '', '" size="30" tabindex="', $context['tabindex']++, '" class="input_text" />
 				</div>';
-
-			}
 		}
 		else
 		{

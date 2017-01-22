@@ -669,7 +669,7 @@ function loadCustomFields($memID, $area = 'summary')
 	$request = $smcFunc['db_query']('', '
 		SELECT
 			col_name, field_name, field_desc, field_type, field_length, field_options,
-			default_value, bbc, enclose, placement, customsmiicon
+			default_value, bbc, enclose, placement
 		FROM {db_prefix}custom_fields
 		WHERE ' . $where,
 		array(
@@ -759,7 +759,6 @@ function loadCustomFields($memID, $area = 'summary')
 			'input_html' => $input_html,
 			'output_html' => $output_html,
 			'placement' => $row['placement'],
-			'customsmiicon' => $row['customsmiicon'],
 			'colname' => $row['col_name'],
 			'value' => $value,
 		);

@@ -733,15 +733,6 @@ function ModifySpamSettings($return_config = false)
 			array('desc', 'configure_verification_means_desc'),
 				'vv' => array('select', 'visual_verification_type', array($txt['setting_image_verification_off'], $txt['setting_image_verification_vsimple'], $txt['setting_image_verification_simple'], $txt['setting_image_verification_medium'], $txt['setting_image_verification_high'], $txt['setting_image_verification_extreme']), 'subtext'=> $txt['setting_visual_verification_type_desc'], 'onchange' => $context['use_graphic_library'] ? 'refreshImages();' : ''),
 				array('int', 'qa_verification_number', 'subtext' => $txt['setting_qa_verification_number_desc']),
-			// reCAPTCHA
-			array('title', 'recaptcha_configure'),
-			array('desc', 'recaptcha_configure_desc', 'class' => 'windowbg'),
-				array('check', 'recaptcha_enabled', 'subtext' => $txt['recaptcha_enable_desc']),
-				array('text', 'recaptcha_public_key'),
-				array('text', 'recaptcha_private_key'),
-				array('select', 'recaptcha_theme', array('light' => $txt['recaptcha_theme_light'],
-									 'dark' => $txt['recaptcha_theme_dark'], )),
-
 			// Clever Thomas, who is looking sheepy now? Not I, the mighty sword swinger did say.
 			array('title', 'setup_verification_questions'),
 			array('desc', 'setup_verification_questions_desc'),
@@ -1278,7 +1269,7 @@ function ShowCustomProfiles()
 	$context['sub_template'] = 'show_custom_profile';
 
 	// What about standard fields they can tweak?
-	$standard_fields = array('icq', 'msn', 'aim', 'yim', 'facebook', 'myspace', 'twitter', 'googleplus', 'linkedin', 'youtube', 'deviantart', 'pinterest', 'location', 'gender', 'website', 'posts', 'warning_status');
+	$standard_fields = array('icq', 'msn', 'aim', 'yim', 'location', 'gender', 'website', 'posts', 'warning_status');
 	// What fields can't you put on the registration page?
 	$context['fields_no_registration'] = array('posts', 'warning_status');
 
@@ -1455,14 +1446,8 @@ function ShowCustomProfiles()
 				'data' => array(
 					'function' => create_function('$rowData', '
 						global $txt;
-						$placements = array(
-							0 => \'standard\',
-							1 => \'withicons\',
-							2 => \'abovesignature\',
-							3 => \'withsmiicons\',
-						);
-						$placement = empty($rowData[\'placement\']) ? 0 : $rowData[\'placement\']; 
-						return $txt[\'custom_profile_placement_\' . $placements[$placement]];
+
+						return $txt[\'custom_profile_placement_\' . (empty($rowData[\'placement\']) ? \'standard\' : ($rowData[\'placement\'] == 1 ? \'withicons\' : \'abovesignature\'))];
 					'),
 					'style' => 'width: 8%; text-align: center;',
 				),
@@ -1509,7 +1494,7 @@ function list_getProfileFields($start, $items_per_page, $sort, $standardFields)
 
 	if ($standardFields)
 	{
-		$standard_fields = array('icq', 'msn', 'aim', 'yim', 'facebook', 'myspace', 'twitter', 'googleplus', 'linkedin', 'youtube', 'deviantart', 'pinterest', 'location', 'gender', 'website', 'posts', 'warning_status');
+		$standard_fields = array('icq', 'msn', 'aim', 'yim', 'location', 'gender', 'website', 'posts', 'warning_status');
 		$fields_no_registration = array('posts', 'warning_status');
 		$disabled_fields = isset($modSettings['disabled_profile_fields']) ? explode(',', $modSettings['disabled_profile_fields']) : array();
 		$registration_fields = isset($modSettings['registration_fields']) ? explode(',', $modSettings['registration_fields']) : array();
@@ -1582,7 +1567,7 @@ function EditCustomProfiles()
 			SELECT
 				id_field, col_name, field_name, field_desc, field_type, field_length, field_options,
 				show_reg, show_display, show_profile, private, active, default_value, can_search,
-				bbc, mask, enclose, placement, customsmiicon
+				bbc, mask, enclose, placement
 			FROM {db_prefix}custom_fields
 			WHERE id_field = {int:current_field}',
 			array(
@@ -1622,7 +1607,6 @@ function EditCustomProfiles()
 				'regex' => substr($row['mask'], 0, 5) == 'regex' ? substr($row['mask'], 5) : '',
 				'enclose' => $row['enclose'],
 				'placement' => $row['placement'],
-				'customsmiicon' => $row['customsmiicon'],
 			);
 		}
 		$smcFunc['db_free_result']($request);
@@ -1652,7 +1636,6 @@ function EditCustomProfiles()
 			'regex' => '',
 			'enclose' => '',
 			'placement' => 0,
-			'customsmiicon' => '',
 		);
 
 	// Are we saving?
@@ -1683,7 +1666,6 @@ function EditCustomProfiles()
 		$field_length = isset($_POST['max_length']) ? (int) $_POST['max_length'] : 255;
 		$enclose = isset($_POST['enclose']) ? $_POST['enclose'] : '';
 		$placement = isset($_POST['placement']) ? (int) $_POST['placement'] : 0;
-		$customsmiicon = isset($_POST['customsmiicon']) ? $_POST['customsmiicon'] : '';
 
 		// Select options?
 		$field_options = '';
@@ -1825,8 +1807,7 @@ function EditCustomProfiles()
 					show_display = {int:show_display}, show_profile = {string:show_profile},
 					private = {int:private}, active = {int:active}, default_value = {string:default_value},
 					can_search = {int:can_search}, bbc = {int:bbc}, mask = {string:mask},
-					enclose = {string:enclose}, placement = {int:placement},
-					customsmiicon = {string:customsmiicon}
+					enclose = {string:enclose}, placement = {int:placement}
 				WHERE id_field = {int:current_field}',
 				array(
 					'field_length' => $field_length,
@@ -1846,7 +1827,6 @@ function EditCustomProfiles()
 					'mask' => $mask,
 					'enclose' => $enclose,
 					'placement' => $placement,
-					'customsmiicon' => $customsmiicon,
 				)
 			);
 
@@ -1874,14 +1854,13 @@ function EditCustomProfiles()
 					'show_reg' => 'int', 'show_display' => 'int', 'show_profile' => 'string',
 					'private' => 'int', 'active' => 'int', 'default_value' => 'string', 'can_search' => 'int',
 					'bbc' => 'int', 'mask' => 'string', 'enclose' => 'string', 'placement' => 'int',
-					'customsmiicon' => 'string',
 				),
 				array(
 					$colname, $_POST['field_name'], $_POST['field_desc'],
 					$_POST['field_type'], $field_length, $field_options,
 					$show_reg, $show_display, $show_profile,
 					$private, $active, $default, $can_search,
-					$bbc, $mask, $enclose, $placement, $customsmiicon,
+					$bbc, $mask, $enclose, $placement,
 				),
 				array('id_field')
 			);
@@ -1927,7 +1906,7 @@ function EditCustomProfiles()
 		checkSession();
 
 		$request = $smcFunc['db_query']('', '
-			SELECT col_name, field_name, field_type, bbc, enclose, placement, customsmiicon
+			SELECT col_name, field_name, field_type, bbc, enclose, placement
 			FROM {db_prefix}custom_fields
 			WHERE show_display = {int:is_displayed}
 				AND active = {int:active}
@@ -1951,7 +1930,6 @@ function EditCustomProfiles()
 				'bbc' => $row['bbc'] ? '1' : '0',
 				'placement' => !empty($row['placement']) ? $row['placement'] : '0',
 				'enclose' => !empty($row['enclose']) ? $row['enclose'] : '',
-				'customsmiicon' => !empty($row['customsmiicon']) ? $row['customsmiicon'] : '',
 			);
 		}
 		$smcFunc['db_free_result']($request);
