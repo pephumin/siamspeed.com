@@ -142,7 +142,8 @@ function template_html_above()
   // Output any remaining HTML headers. (from mods, maybe?)
   echo $context['html_headers'];
   include_once("API/googleAnalytics");
-  include_once("API/googleAdSense-PageLevel");
+  // include_once("API/googleAdSense-PageLevel");
+  if (($_GET['action'] != "login") || ($_GET['action'] != "login2")) { include_once("API/googleAdSense-PageLevel"); }
   include_once("API/pixel");
 
   echo '
@@ -173,7 +174,7 @@ function template_html_above()
 <body>
   <img src="/Themes/exodus/images/black-ribbon.png" class="stick-top-left" alt="ทีมงาน siamspeed.com ขอน้อมรำลึกในพระมหากรุณาธิคุณของพ่อหลวง และขอกราบน้อมเกล้าฯส่งเสด็จสู่สวรรคาลัย">';
 include_once("API/facebookSDK");
-include_once("API/googleAdSense1");
+if (($_GET['action'] != "login") || ($_GET['action'] != "login2")) { include_once("API/googleAdSense1"); }
 }
 
 function template_body_above()
@@ -338,7 +339,8 @@ function template_html_below()
 {
   global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
-  include_once("API/googleAdSense2");
+  // include_once("API/googleAdSense2");
+  if (($_GET['action'] != "login") || ($_GET['action'] != "login2")) { include_once("API/googleAdSense2"); }
   echo '
 </body>
 </html>';
