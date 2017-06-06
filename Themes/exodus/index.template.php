@@ -20,6 +20,10 @@ function template_html_above()
 {
   global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
+  $adsense = true;
+  if ($context['current_action'] == "login") { $adsense = false; }
+  else if ($context['current_action'] == "login2") { $adsense = false; }
+
   // Show right to left and the character set for ease of translating.
   echo '<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"', $context['right_to_left'] ? ' dir="rtl"' : '', '
@@ -143,8 +147,8 @@ function template_html_above()
   echo $context['html_headers'];
   include_once("API/googleAnalytics");
   // include_once("API/googleAdSense-PageLevel");
-  if (($_GET['action'] != "login") || ($_GET['action'] != "login2")) { include_once("API/googleAdSense-PageLevel"); }
-  include_once("API/pixel");
+  if ($adsense == true) { include_once("API/googleAdSense-PageLevel"); }
+  // include_once("API/pixel");
 
   echo '
   <style type="text/css">
@@ -173,8 +177,8 @@ function template_html_above()
 </head>
 <body>
   <img src="/Themes/exodus/images/black-ribbon.png" class="stick-top-left" alt="ทีมงาน siamspeed.com ขอน้อมรำลึกในพระมหากรุณาธิคุณของพ่อหลวง และขอกราบน้อมเกล้าฯส่งเสด็จสู่สวรรคาลัย">';
-include_once("API/facebookSDK");
-if (($_GET['action'] != "login") || ($_GET['action'] != "login2")) { include_once("API/googleAdSense1"); }
+// include_once("API/facebookSDK");
+if ($adsense == true) { include_once("API/googleAdSense1"); }
 }
 
 function template_body_above()
@@ -339,8 +343,13 @@ function template_html_below()
 {
   global $context, $settings, $options, $scripturl, $txt, $modSettings;
 
+  // print_r($context['current_action']);
+  $adsense = true;
+  if ($context['current_action'] == "login") { $adsense = false; }
+  else if ($context['current_action'] == "login2") { $adsense = false; }
+
   // include_once("API/googleAdSense2");
-  if (($_GET['action'] != "login") || ($_GET['action'] != "login2")) { include_once("API/googleAdSense2"); }
+  if ($adsense == true) { include_once("API/googleAdSense2"); }
   echo '
 </body>
 </html>';
