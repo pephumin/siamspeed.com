@@ -205,7 +205,7 @@ function template_body_above()
                 <input type="text" name="user" size="10" class="input_text" placeholder="', $txt['user'], '" />
                 <input type="password" name="passwrd" size="10" class="input_password" placeholder="', $txt['password'], '" /> <br /><span><font style="color: #fff; text-transform: uppercase; font-weight: lighter;font-size: 12px;">REMEMBER ME?&nbsp;</font></span><input type="checkbox" name="cookieneverexp" class="input_check" onclick="this.form.cookielength.disabled = this.checked;">
                 <input type="submit" value="" />
-                <input type="hidden" name="hash_passwrd" value="" />
+                <input type="hidden" name="hash_passwrd" value="" /><input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
               </form>
             </li>
           </ul>
