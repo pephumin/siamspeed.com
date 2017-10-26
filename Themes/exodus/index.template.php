@@ -152,7 +152,6 @@ function template_html_above()
 
   echo '
   <style type="text/css">
-  /*
   body {
     filter: grayscale(85%);
     -webkit-filter: grayscale(85%);
@@ -160,7 +159,6 @@ function template_html_above()
     -o-filter: grayscale(85%);
     -ms-filter: grayscale(85%);
   }
-  */
   .stick-top-left {
     top: 0;
     left: 0;
