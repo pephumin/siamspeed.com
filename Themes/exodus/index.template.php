@@ -113,9 +113,9 @@ function template_html_above()
   <title>', $context['page_title_html_safe'], '</title>';
 
   // Please don't index these Mr Robot.
-  if (!empty($context['robot_no_index']))
-    echo '
-  <meta name="robots" content="noindex" />';
+  // if (!empty($context['robot_no_index']))
+  //   echo '
+  // <meta name="robots" content="noindex" />';
 
   // Present a canonical url for search engines to prevent duplicate content in their indices.
   if (!empty($context['canonical_url']))
